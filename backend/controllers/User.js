@@ -3,20 +3,20 @@ const jwt = require('jsonwebtoken'); // creation token
 const models = require('../models'); //User model import
 
 
-//INSCRIPTION USER
-exports.signUpUser = (req, res, next) => {
+//Inscription de l'utilisateur
+exports.UserSignup = (req, res, next) => {
 
     const email = req.body.email;
     const username = req.body.username;
     const password = req.body.password;
     const photo = req.body.photo;
 
-    //On verifie les parametres
+    //On verifie les parametres suivants
     if (email == null || username == null || password == null) {
         return res.status(400).json({ 'error': 'missing parameters' })
     }
 
-    //Verify pseudo lenght, mail regex, password 
+    //Verification du mail regex et mot de passe
     models.User.findOne({
         attributes: ['email'],
         where: { email: email }
@@ -49,49 +49,46 @@ exports.signUpUser = (req, res, next) => {
         })
 }
 
-//LOGIN USER
-exports.loginUser = (req, res, next) => {
+//Connexion de l'utilisateur
+exports.UserLogin = (req, res, next) => {
     console.log(req.body.password)
-    //Look for mail address in the data base
-    const email = req.body.email
+    const email = req.body.email // Verifie l'addresse mail dans la DB
     models.User.findOne({
         where: { email: email }
     })
         .then(user => {
-            //If user is not in the data base
+            //Si l'utilisateur n'est pas dans la DB
             if (!user) {
                 return res.status(401).json({ error: 'User not exist in DB !' });
             }
-            //If the user is in the data base
+            //Si l'utilisateur est dans la DB
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
-                    //If the password isn't correct
+                    //Si le mdp est incorrect
                     if (!valid) {
                         return res.status(401).json({ error: 'Invalid password !' });
                     }
-                    //If the password is correct, then creation of a token
+                    //Si le mdp est correcte alors creation de token
                     res.status(200).json({
                         userId: user.id,
                         isAdmin: user.isAdmin,
                         email: user.email,
                         token: jwt.sign(
                             { userId: user.id },
-                            //création d'un token
+                            //création d'un token ici
                             'RANDOM_TOKEN_SECRET',
-                            //valable 24h
+                            //Valable 24h
                             { expiresIn: '24h' }
                         )
                     });
                 })
-                // Server error
                 .catch(error => res.status(500).json({ error }));
         })
-        // Server erroe
         .catch(error => res.status(500).json({ error }));
 };
 
-//DELETE USER
-exports.deleteUser = (req, res, next) => {
+//Pour supprimer un utilisateur
+exports.UserDelete = (req, res, next) => {
     let id = req.body.id
     models.Post.destroy({ where: { id_users: id } })
         .then(() => models.User.destroy({ where: { id: id } }))
@@ -100,9 +97,15 @@ exports.deleteUser = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 }
 
+//Obtention de l'utilisateur
+exports.UserGet = (req, res, next) => {
+    models.User.findAll()
+    .then(users => res.status(200).json(users))
+        .catch(error => res.status(400).json({ error }));
+}
 
-//UPDATE USER
-exports.updateUser = (req, res, next) => {
+//Mise a jour de l'utilisateur
+exports.UserUpdate = (req, res, next) => {
     const id = req.body.id;
     const username = req.body.username;
     models.User.update(
@@ -110,12 +113,5 @@ exports.updateUser = (req, res, next) => {
         { where: { id: id } }
     )
         .then(() => res.status(200).json({ message: 'User updated !' }))
-        .catch(error => res.status(400).json({ error }));
-}
-
-//GET USER 
-exports.getUser = (req, res, next) => {
-    models.User.findAll()
-    .then(users => res.status(200).json(users))
         .catch(error => res.status(400).json({ error }));
 }

@@ -21,8 +21,6 @@ const storage = multer.diskStorage({
 module.exports = multer({
     storage,
     limits: {
-        fileSize: (1048576*2) // 2MB max filesize
+        fileSize: (1048576*2) //Fichier ayant 2MB max
     }
 }).single('image');
-
-// GERER QUAND IMAGE PAS D'EXTENSION EN BACK AUSSI
