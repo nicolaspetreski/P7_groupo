@@ -43,6 +43,16 @@ export default {
     console.log(idUser);
     this.id = idUser;
   },
+  methods: {
+    exitUser (){
+       localStorage.removeItem('Id');
+       localStorage.removeItem('token');
+       localStorage.removeItem('isAdmin');
+       localStorage.removeItem('email');
+       location.replace(location.origin + "/signup#/signup");
+       location.reload();
+    }
+  }
 }
 </script>
 
