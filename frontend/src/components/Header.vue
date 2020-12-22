@@ -2,7 +2,7 @@
 <div class="bg-header">
     <div class=" d-flex flex-column justify-content-around pt-4">
         <h1 class="main-title py-5"><span class='font-weight-bold text-uppercase title-size'>Grouppedit</span><br/>
-        le premier principe d'une société libre est un flux de mots sans entraves dans un forum ouvert
+        <p>"Le premier principe d'une société libre est un flux de mots sans entraves dans un forum ouvert"</p>
              </h1>
         <div>
             <img class="logo-title" src='../assets/logo_white.png' alt="Icone de Groupomania">
@@ -23,13 +23,21 @@ export default {
 .main-title{
     font-size: 1.5rem;
     color: #fff;
-    font-family: Georgia, 'Times New Roman', Times, serif ;
+    font-family: 'Staatliches', cursive;
+        p{
+            font-size: 1rem;
+            font-style: italic;
+        }
 }
 .logo-title{
     width: 12rem;
 }
  .bg-header{
-    background-image: url("../assets/gradient.jpg");
+    background: #000000;
+    background: -webkit-linear-gradient(to right, #434343, #000000);
+    background: linear-gradient(to right, #434343, #000000);
+
+
  }
  .bg-header-color{
      background-color: #f0e8c7;

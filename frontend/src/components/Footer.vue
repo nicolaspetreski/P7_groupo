@@ -27,10 +27,13 @@ a{
     }
 }
 .footer-bg{
-  background-image: url("../assets/gradient.jpg");
+  background: #000000;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #434343, #000000);
+  background: linear-gradient(to right, #434343, #000000);
 }
+
 .text-company{
-  font-size: 0.5rem;
+  font-size: 0.8rem;
   color:#fff;
 }
 </style>
