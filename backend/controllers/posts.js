@@ -1,5 +1,5 @@
 require('dotenv').config();
-//const hateoas = require('../HATEOAS/hateoasPosts')
+
 const models = require('../models');
 const validator = require('validator');
 const jwtUtils = require('../middlewares/auth');

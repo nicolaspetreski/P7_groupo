@@ -8,7 +8,7 @@ const logger = require('../middlewares/winston');
 const passwordValidator = require('password-validator');
 const schema = new passwordValidator();
 const xss = require('xss')
-//const hateoasUsers = require('../HATEOAS/hateoasUsers')
+
 schema
 	.is().min(8) // Avoir 8 char au min
 	.has().uppercase()//doit avoir une majuscule

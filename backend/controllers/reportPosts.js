@@ -2,7 +2,7 @@ require('dotenv').config();
 const models = require('../models');
 const jwtUtils = require('../middlewares/auth');
 const logger = require('../middlewares/winston');
-//const hateoasReport = require('../HATEOAS/hateoasIssue')
+
 
 exports.readAll = (req, res, next) => {
 	const headerAuth = req.headers['authorization'];

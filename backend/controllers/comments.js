@@ -3,7 +3,7 @@ const models = require('../models');
 const jwtUtils = require('../middlewares/auth');
 const logger = require('../middlewares/winston');
 const validator = require('validator');
-//const hateoasComment = require('../HATEOAS/hateoasComments');
+
 const xss = require('xss')
 
 
