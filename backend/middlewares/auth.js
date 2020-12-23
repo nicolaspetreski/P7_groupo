@@ -1,19 +1,35 @@
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
-module.exports = (req, res, next) => {
-  try {
-    const token = req.headers.authorization.split(' ')[1];
-    console.log(req.headers.authorization);
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    const userId = decodedToken.userId;
-    if (req.body.userId && req.body.userId !== userId) {
-      throw 'Invalid user ID';
-    } else {
-      next();
-    }
-  } catch {
-    res.status(401).json({
-      error: new Error('Invalid request!')
-    });
-  }
-};
+exports.generateToken = (user) => {
+	return jwt.sign(
+		{ userId: user.id, roles: user.roles},
+		`${process.env.PRIVATEKEY}`,
+		{ expiresIn: '24h' }
+	);
+}
+
+exports.getBearer = (authorization) => {
+	if( authorization === undefined){
+		return ` Authentication failed, please login or create an account !`
+	} else {
+		return (authorization !== null) ? authorization.replace('Bearer ', '') : null;
+	}
+}
+
+exports.getUserId = (authorization) => {
+	let userId;
+
+	let token = this.getBearer(authorization);
+	if (token !== null) {
+		try {
+			let jwtToken = jwt.verify(token, `${process.env.PRIVATEKEY}`);
+			if (jwtToken != null) {
+				userId = jwtToken.userId;
+			}
+		} catch (error){
+			throw ` Authentication failed, please login or create an account !`
+		}
+	}
+	return userId;
+}
